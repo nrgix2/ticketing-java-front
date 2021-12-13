@@ -1,6 +1,6 @@
 # Java-ticketing-front #
 
-A Vue.js simple product app with firestore
+A Vue.js project crud for tickets 
 
 ```Build Setup
 # install dependencies
@@ -13,4 +13,5 @@ npm run dev
 npm run build
 
 # build for production and view the bundle analyzer report
-npm run build --report```
+npm run build --report
+``` 
