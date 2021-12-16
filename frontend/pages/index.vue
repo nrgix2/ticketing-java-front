@@ -1,65 +1,130 @@
 <template>
   <section>
     <div class="actions">
-      <nuxt-link class="btn btn-default" :to="{path: '/add-product'}">
+      <nuxt-link class="btn btn-default" :to="{ path: '/add-ticket' }">
         <span class="glyphicon glyphicon-plus"></span>
-        Add product
+        Add ticket
       </nuxt-link>
     </div>
     <div class="filters row">
       <div class="form-group col-sm-3">
-        <label for="search-element">Product name</label>
-        <input v-model="searchKey" class="form-control" id="search-element" requred/>
+        <label for="search-element">ticket name</label>
+        <input
+          v-model="searchKey"
+          class="form-control"
+          id="search-element"
+          requred
+        />
       </div>
     </div>
     <table class="table">
       <thead>
-      <tr>
-        <th>Name</th>
-        <th>Description</th>
-        <th>Price</th>
-        <th class="col-sm-2">Actions</th>
-      </tr>
+        <tr>
+          <th>Ticket Title</th>
+          <th>Description</th>
+          <th class="col-sm-2">Actions</th>
+        </tr>
       </thead>
       <tbody>
-      <tr v-for="product in filteredProducts">
-        <td>
-          <nuxt-link :to="{name: 'product-id-edit', params: {id: product.id}}">{{ product.name }}</nuxt-link>
-        </td>
-        <td>{{ product.description }}</td>
-        <td>
-          {{ product.price }}
-          <span class="glyphicon glyphicon-euro" aria-hidden="true"></span>
-        </td>
-        <td>
-          <nuxt-link class="btn modify btn-warning btn-xs" :to="{name: 'product-id-edit', params: {id: product.id}}"></nuxt-link>
-          <nuxt-link class="btn delete btn-danger btn-xs" :to="{name: 'product-id-delete', params: {id: product.id}}"></nuxt-link>
-        </td>
-      </tr>
+        <tr v-for="ticket in tickets" :key="ticket.id">
+          <td>
+            <div>{{ ticket.id + " - " + ticket.name }}</div>
+          </td>
+          <td>{{ ticket.status }}</td>
+          <td>
+            <div
+              class="btn btn-warning btn-xs"
+              @click="updateTicketById(ticket)"
+            >
+              <i class="far fa-edit"></i>Edit
+            </div>
+            <div
+              @click="deleteTicketById(ticket.id)"
+              class="btn delete btn-danger btn-xs"
+            >
+              X<i class="far fa-trash-alt"></i>
+            </div>
+          </td>
+        </tr>
       </tbody>
     </table>
   </section>
 </template>
 
 <script>
+// import { log } from "console";
 
 export default {
-  layout: 'vue-crud',
-  data () {
-    return { searchKey: '', products: this.$store.state.products }
+  async fetch() {
+    this.tickets = await fetch(
+      "http://localhost:8080/tickets/all"
+    ).then((res) => res.json());
+    console.log(this.tickets);
   },
-  computed : {
-    filteredProducts () {
-      return this.products.filter(product => product.name.toLowerCase().indexOf(this.searchKey.toLowerCase()) !== -1)
-    }
-  }
-}
+  created() {
+    // POST request using axios with error handling
+    const article = { title: "Vue POST Request Example" };
+    axios
+      .post("http://localhost:8080/tickets/", ticket)
+      .then((response) => (this.ticket = response.ticket))
+      .catch((error) => {
+        this.errorMessage = error.message;
+        console.error("There was an error!", error);
+      });
+  },
+  layout: "vue-crud",
+  data() {
+    return { searchKey: "", tickets: {} };
+  },
+  computed: {
+    filteredtickets() {
+      return this.tickets.filter(
+        (ticket) =>
+          ticket.description
+            .toLowerCase()
+            .indexOf(this.searchKey.toLowerCase()) !== -1
+      );
+    },
+  },
+  methods: {
+    deleteTicketById(id) {
+      let foundIndex = this.tickets.findIndex((p) => p.id === id);
+      // console.log("delete " + this.ticket.name);
+      if (foundIndex !== -1) this.tickets.splice(foundIndex, 1);
+      // Simple DELETE request with fetch
+      const element = document.querySelector("#delete-request .status");
+      fetch("https://reqres.in/api/posts/1", { method: "DELETE" }).then(
+        () => (element.innerHTML = "Delete successful")
+      );
+    },
+    updateTicketById(ticket) {
+      let foundIndex = this.tickets.findIndex((p) => p.id === this.tickets.id);
+      console.log("update " + foundIndex + this.tickets.name);
+      //
+    },
+    // async getAllUsers({ $axios, $config }) {
+    //   const users = await $axios.$get(`/users/all`);
+    //   return { users };
+    // },
+    // async getAllTickets({ $axios, $config }) {
+    //   const tickets = await $axios.$get(`/tickets/all`);
+    //   console.log(tickets);
+    //   return { tickets };
+    // },
+    // async getAllTickets() {
+    //   const res = await this.$axios.$get("users/all");
+    //   this.res = res;
+    //   console.log(res);
+    // },
+    // mounted() {
+    //   getAllTickets();
+    // },
+  },
+  components: {},
+};
 </script>
 
 <style>
-.modify{
-}
-
 .form-group {
   max-width: 500px;
 }
