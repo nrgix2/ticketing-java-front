@@ -39,7 +39,7 @@
               <i class="far fa-edit"></i>Edit
             </div>
             <div
-              @click="deleteTicketById(ticket.id)"
+              @click="deleteTicket(ticket.id)"
               class="btn delete btn-danger btn-xs"
             >
               X<i class="far fa-trash-alt"></i>
@@ -53,6 +53,7 @@
 
 <script>
 // import { log } from "console";
+import axios from "axios";
 
 export default {
   async fetch() {
@@ -63,14 +64,6 @@ export default {
   },
   created() {
     // POST request using axios with error handling
-    const article = { title: "Vue POST Request Example" };
-    axios
-      .post("http://localhost:8080/tickets/", ticket)
-      .then((response) => (this.ticket = response.ticket))
-      .catch((error) => {
-        this.errorMessage = error.message;
-        console.error("There was an error!", error);
-      });
   },
   layout: "vue-crud",
   data() {
@@ -91,11 +84,26 @@ export default {
       let foundIndex = this.tickets.findIndex((p) => p.id === id);
       // console.log("delete " + this.ticket.name);
       if (foundIndex !== -1) this.tickets.splice(foundIndex, 1);
+      fetch("http://localhost:8080/tickets/?id=", id)
+        .then((response) => (this.ticket = response.ticket))
+        .catch((error) => {
+          this.errorMessage = error.message;
+          console.error("There was an error!", error);
+        });
       // Simple DELETE request with fetch
-      const element = document.querySelector("#delete-request .status");
-      fetch("https://reqres.in/api/posts/1", { method: "DELETE" }).then(
-        () => (element.innerHTML = "Delete successful")
-      );
+      // const element = document.querySelector("#delete-request .status");
+      // fetch("https://reqres.in/api/posts/1", { method: "DELETE" }).then(
+      //   () => (element.innerHTML = "Delete successful")
+      // );
+    },
+    deleteTicket(id) {
+       let foundIndex = this.tickets.findIndex((p) => p.id === id);
+      axios
+        .delete("http://localhost:8080/ticket/?id=" + id)
+        .then((response) => {
+          this.tickets.splice(foundIndex, 1)
+          console.log(this.tickets);
+        });
     },
     updateTicketById(ticket) {
       let foundIndex = this.tickets.findIndex((p) => p.id === this.tickets.id);
