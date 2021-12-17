@@ -10,23 +10,30 @@
 </template>
 
 <script>
- import ProductForm from '../../../components/product-form.vue'
+import TicketForm from "../../../components/ticket-form.vue";
 
 export default {
-  components: { ProductForm },
-  layout: 'vue-crud',
-  data () {
+  components: { TicketForm },
+  layout: "vue-crud",
+  data() {
     // deep-clone the product (using JSON stringify + parse) to prevent that changes are applied directly.
     // Direct manipulation goes wrong when validation error occurs and user cancels.
     // Only change via mutations.
-    return {"product": JSON.parse(JSON.stringify(this.$store.state.products.find(product => product.id === this.$route.params.id)))};
+    return {
+      product: JSON.parse(
+        JSON.stringify(
+          this.$store.state.products.find(
+            (product) => product.id === this.$route.params.id
+          )
+        )
+      ),
+    };
   },
   methods: {
-    updateProduct (e) {
-      this.$store.commit('UPDATE_PRODUCT', this.product)
-      this.$router.push('/')
-    }
-  }
-}
+    updateProduct(e) {
+      this.$store.commit("UPDATE_PRODUCT", this.product);
+      this.$router.push("/");
+    },
+  },
+};
 </script>
-

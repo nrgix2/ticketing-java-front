@@ -9,6 +9,8 @@ export const state = () => ({
       ]
 })
 
+export let tickets = {}
+
 export const mutations = {
       ADD_PRODUCT (state, product) {
         console.log('add ' + product.name);

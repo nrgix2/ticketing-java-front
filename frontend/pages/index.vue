@@ -1,10 +1,11 @@
 <template>
   <section>
     <div class="actions">
-      <nuxt-link class="btn btn-default" :to="{ path: '/add-ticket' }">
+      <nuxt-link class="btn btn-default" :to="{ path: '/create' }">
         <span class="glyphicon glyphicon-plus"></span>
         Add ticket
       </nuxt-link>
+      <div class="btn btn-info" @click="fetch">Charger les données</div>
     </div>
     <div class="filters row">
       <div class="form-group col-sm-3">
@@ -53,7 +54,7 @@
 
 <script>
 // import { log } from "console";
-import axios from "axios";
+import Axios from "Axios";
 
 export default {
   async fetch() {
@@ -63,7 +64,7 @@ export default {
     console.log(this.tickets);
   },
   created() {
-    // POST request using axios with error handling
+    // POST request using Axios with error handling
   },
   layout: "vue-crud",
   data() {
@@ -80,28 +81,27 @@ export default {
     },
   },
   methods: {
-    deleteTicketById(id) {
-      let foundIndex = this.tickets.findIndex((p) => p.id === id);
-      // console.log("delete " + this.ticket.name);
-      if (foundIndex !== -1) this.tickets.splice(foundIndex, 1);
-      fetch("http://localhost:8080/tickets/?id=", id)
-        .then((response) => (this.ticket = response.ticket))
-        .catch((error) => {
-          this.errorMessage = error.message;
-          console.error("There was an error!", error);
-        });
-      // Simple DELETE request with fetch
-      // const element = document.querySelector("#delete-request .status");
-      // fetch("https://reqres.in/api/posts/1", { method: "DELETE" }).then(
-      //   () => (element.innerHTML = "Delete successful")
-      // );
-    },
+    // deleteTicketById(id) {
+    //   let foundIndex = this.tickets.findIndex((p) => p.id === id);
+    //   // console.log("delete " + this.ticket.name);
+    //   if (foundIndex !== -1) this.tickets.splice(foundIndex, 1);
+    //   delete("http://localhost:8080/tickets/?id=", id)
+    //     .then((response) => (this.ticket = response.ticket))
+    //     .catch((error) => {
+    //       this.errorMessage = error.message;
+    //       console.error("There was an error!", error);
+    //     });
+    // Simple DELETE request with fetch
+    // const element = document.querySelector("#delete-request .status");
+    // fetch("https://reqres.in/api/posts/1", { method: "DELETE" }).then(
+    //   () => (element.innerHTML = "Delete successful")
+    // );
     deleteTicket(id) {
-       let foundIndex = this.tickets.findIndex((p) => p.id === id);
-      axios
+      let foundIndex = this.tickets.findIndex((p) => p.id === id);
+      Axios
         .delete("http://localhost:8080/ticket/?id=" + id)
         .then((response) => {
-          this.tickets.splice(foundIndex, 1)
+          this.tickets.splice(foundIndex, 1);
           console.log(this.tickets);
         });
     },
@@ -110,24 +110,24 @@ export default {
       console.log("update " + foundIndex + this.tickets.name);
       //
     },
-    // async getAllUsers({ $axios, $config }) {
-    //   const users = await $axios.$get(`/users/all`);
-    //   return { users };
-    // },
-    // async getAllTickets({ $axios, $config }) {
-    //   const tickets = await $axios.$get(`/tickets/all`);
-    //   console.log(tickets);
-    //   return { tickets };
-    // },
-    // async getAllTickets() {
-    //   const res = await this.$axios.$get("users/all");
-    //   this.res = res;
-    //   console.log(res);
-    // },
-    // mounted() {
-    //   getAllTickets();
-    // },
   },
+  // async getAllUsers({ $Axios, $config }) {
+  //   const users = await $Axios.$get(`/users/all`);
+  //   return { users };
+  // },
+  // async getAllTickets({ $Axios, $config }) {
+  //   const tickets = await $Axios.$get(`/tickets/all`);
+  //   console.log(tickets);
+  //   return { tickets };
+  // },
+  // async getAllTickets() {
+  //   const res = await this.$Axios.$get("users/all");
+  //   this.res = res;
+  //   console.log(res);
+  // },
+  // mounted() {
+  //   getAllTickets();
+  // },
   components: {},
 };
 </script>
