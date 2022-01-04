@@ -10,7 +10,7 @@
 </template>
 
 <script>
-import TicketForm from "../../components/ticket-form.vue";
+import TicketForm from "../../../components/ticket-form.vue";
 
 export default {
   components: { TicketForm },
