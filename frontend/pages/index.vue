@@ -35,12 +35,12 @@
           <td>
             <div
               class="btn btn-warning btn-xs"
-              @click="updateTicketById(ticket)"
+              @click="updateTicket(ticket)"
             >
               <i class="far fa-edit"></i>Edit
             </div>
             <div
-              @click="deleteTicket(ticket.id)"
+              @click="deleteTicketById(ticket.id)"
               class="btn delete btn-danger btn-xs"
             >
               X<i class="far fa-trash-alt"></i>
@@ -53,18 +53,17 @@
 </template>
 
 <script>
-// import { log } from "console";
 import Axios from "Axios";
 
 export default {
   async fetch() {
+    // Fetche data from API local 
     this.tickets = await fetch(
       "http://localhost:8080/tickets/all"
     ).then((res) => res.json());
     console.log(this.tickets);
   },
   created() {
-    // POST request using Axios with error handling
   },
   layout: "vue-crud",
   data() {
@@ -81,53 +80,22 @@ export default {
     },
   },
   methods: {
-    // deleteTicketById(id) {
-    //   let foundIndex = this.tickets.findIndex((p) => p.id === id);
-    //   // console.log("delete " + this.ticket.name);
-    //   if (foundIndex !== -1) this.tickets.splice(foundIndex, 1);
-    //   delete("http://localhost:8080/tickets/?id=", id)
-    //     .then((response) => (this.ticket = response.ticket))
-    //     .catch((error) => {
-    //       this.errorMessage = error.message;
-    //       console.error("There was an error!", error);
-    //     });
-    // Simple DELETE request with fetch
-    // const element = document.querySelector("#delete-request .status");
-    // fetch("https://reqres.in/api/posts/1", { method: "DELETE" }).then(
-    //   () => (element.innerHTML = "Delete successful")
-    // );
-    deleteTicket(id) {
+    deleteTicketById(id) {
       let foundIndex = this.tickets.findIndex((p) => p.id === id);
-      Axios
-        .delete("http://localhost:8080/ticket/?id=" + id)
-        .then((response) => {
+      Axios.delete("http://localhost:8080/ticket/?id=" + id).then(
+        (response) => {
           this.tickets.splice(foundIndex, 1);
           console.log(this.tickets);
-        });
+        }
+      );
     },
-    updateTicketById(ticket) {
+    updateTicket(ticket) {
       let foundIndex = this.tickets.findIndex((p) => p.id === this.tickets.id);
       console.log("update " + foundIndex + this.tickets.name);
       //
     },
   },
-  // async getAllUsers({ $Axios, $config }) {
-  //   const users = await $Axios.$get(`/users/all`);
-  //   return { users };
-  // },
-  // async getAllTickets({ $Axios, $config }) {
-  //   const tickets = await $Axios.$get(`/tickets/all`);
-  //   console.log(tickets);
-  //   return { tickets };
-  // },
-  // async getAllTickets() {
-  //   const res = await this.$Axios.$get("users/all");
-  //   this.res = res;
-  //   console.log(res);
-  // },
-  // mounted() {
-  //   getAllTickets();
-  // },
+
   components: {},
 };
 </script>
