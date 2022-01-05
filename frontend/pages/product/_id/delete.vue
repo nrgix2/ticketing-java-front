@@ -1,6 +1,6 @@
 <template>
   <section>
-    <h2>Delete product {{ product.name }}</h2>
+    <h2>Delete ticket {{ product.name }}</h2>
     <form v-on:submit.prevent="deleteProduct">
       <p>The action cannot be undone.</p>
       <button type="submit" class="btn btn-danger">Delete</button>

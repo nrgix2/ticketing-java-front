@@ -1,7 +1,7 @@
 <template>
   <section>
     <div class="actions">
-      <nuxt-link class="btn btn-default" :to="{ path: '/create' }">
+      <nuxt-link class="btn btn-default" :to="{ path: '/product/create' }">
         <span class="glyphicon glyphicon-plus"></span>
         Add ticket
       </nuxt-link>
@@ -32,19 +32,15 @@
             <div>{{ ticket.id + " - " + ticket.name }}</div>
           </td>
           <td>{{ ticket.status }}</td>
-          <td>
-            <div
-              class="btn btn-warning btn-xs"
-              @click="updateTicket(ticket)"
-            >
-              <i class="far fa-edit"></i>Edit
-            </div>
-            <div
-              @click="deleteTicketById(ticket.id)"
-              class="btn delete btn-danger btn-xs"
-            >
-              X<i class="far fa-trash-alt"></i>
-            </div>
+          <td class="btn-control">
+            <nuxt-link class="btn btn-warning btn-xs btn-edit" :to="{ path: '/product/edit' }">
+              <span class="glyphicon glyphicon-edit"></span>
+              Edit
+            </nuxt-link>
+            <nuxt-link class="btn btn-danger btn-xs" :to="{ path: '/product/delete' }">
+              <span class="glyphicon glyphicon-remove"></span>
+              Delete
+            </nuxt-link>
           </td>
         </tr>
       </tbody>
@@ -56,15 +52,7 @@
 import Axios from "Axios";
 
 export default {
-  async fetch() {
-    // Fetche data from API local 
-    this.tickets = await fetch(
-      "http://localhost:8080/tickets/all"
-    ).then((res) => res.json());
-    console.log(this.tickets);
-  },
-  created() {
-  },
+  created() {},
   layout: "vue-crud",
   data() {
     return { searchKey: "", tickets: {} };
@@ -94,6 +82,13 @@ export default {
       console.log("update " + foundIndex + this.tickets.name);
       //
     },
+    async fetch() {
+      // Fetche data from API local
+      this.tickets = await fetch(
+        "http://localhost:8080/tickets/all"
+      ).then((res) => res.json());
+      console.log(this.tickets);
+    },
   },
 
   components: {},
@@ -101,6 +96,13 @@ export default {
 </script>
 
 <style>
+.btn-control{
+  display: flex;
+}
+.btn-edit{
+  margin-right: 15px;
+}
+
 .form-group {
   max-width: 500px;
 }

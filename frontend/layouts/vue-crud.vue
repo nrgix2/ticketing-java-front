@@ -2,12 +2,14 @@
   <div class="container">
     <header class="page-header">
       <div>
-        Tick<img
+        <nuxt-link to="/">
+          <img
           src="../../dist/img/logo.png"
           alt="Logo"
           title="Home page"
           class="logo"
-        />ti
+        />
+          </nuxt-link>
       </div>
 
     </header>
