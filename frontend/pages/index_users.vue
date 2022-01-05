@@ -1,18 +1,18 @@
 <template>
   <section>
     <div class="actions">
-      <nuxt-link class="btn btn-default" :to="{ path: '/index_users' }">
-        Go to users
+      <nuxt-link class="btn btn-default" :to="{ path: '/' }">
+        Go to tickets
       </nuxt-link>
       <nuxt-link class="btn btn-default" :to="{ path: '/create' }">
         <span class="glyphicon glyphicon-plus"></span>
-        Add ticket
+        Add user
       </nuxt-link>
       <div class="btn btn-info" @click="fetch">Charger les données</div>
     </div>
     <div class="filters row">
       <div class="form-group col-sm-3">
-        <label for="search-element">ticket name</label>
+        <label for="search-element">User</label>
         <input
           v-model="searchKey"
           class="form-control"
@@ -24,30 +24,30 @@
     <table class="table">
       <thead>
         <tr>
-          <th>Ticket Title</th>
-          <th>Description</th>
-          <th>Status</th>
-          <th>User-ID</th>
+          <th>Firstname</th>
+          <th>Role</th>
+          <th>Telephone</th>
+          <th>Username</th>
           <th class="col-sm-2">Actions</th>
         </tr>
       </thead>
       <tbody>
-        <tr v-for="ticket in tickets" :key="ticket.id">
+        <tr v-for="user in users" :key="user.id">
           <td>
-            <div>{{ ticket.id + " - " + ticket.name }}</div>
+            <div>{{ user.id + " - " + user.firstname }}</div>
           </td>
-          <td>{{ ticket.description }}</td>
-          <td>{{ ticket.status }}</td>
-          <td>{{ ticket.userId }}</td>
+          <td>{{ user.role }}</td>
+          <td>{{ user.telephone }}</td>
+          <td>{{ user.username }}</td>
           <td>
             <div
               class="btn btn-warning btn-xs"
-              @click="updateTicket(ticket)"
+              @click="updateUser(user)"
             >
               <i class="far fa-edit"></i>Edit
             </div>
             <div
-              @click="deleteTicketById(ticket.id)"
+              @click="deleteUserById(user.id)"
               class="btn delete btn-danger btn-xs"
             >
               X<i class="far fa-trash-alt"></i>
@@ -65,40 +65,40 @@ import Axios from "Axios";
 export default {
   async fetch() {
     // Fetche data from API local 
-    this.tickets = await fetch(
-      "http://localhost:8080/tickets/all"
+    this.users = await fetch(
+      "http://localhost:8080/users/all"
     ).then((res) => res.json());
-    console.log(this.tickets);
+    console.log(this.users);
   },
   created() {
   },
   layout: "vue-crud",
   data() {
-    return { searchKey: "", tickets: {} };
+    return { searchKey: "", users: {} };
   },
   computed: {
-    filteredtickets() {
-      return this.tickets.filter(
-        (ticket) =>
-          ticket.description
+    filteredusers() {
+      return this.users.filter(
+        (user) =>
+          user.description
             .toLowerCase()
             .indexOf(this.searchKey.toLowerCase()) !== -1
       );
     },
   },
   methods: {
-    deleteTicketById(id) {
-      let foundIndex = this.tickets.findIndex((p) => p.id === id);
-      Axios.delete("http://localhost:8080/ticket/?id=" + id).then(
+    deleteUserById(id) {
+      let foundIndex = this.users.findIndex((p) => p.id === id);
+      Axios.delete("http://localhost:8080/users/?id=" + id).then(
         (response) => {
-          this.tickets.splice(foundIndex, 1);
-          console.log(this.tickets);
+          this.users.splice(foundIndex, 1);
+          console.log(this.users);
         }
       );
     },
-    updateTicket(ticket) {
-      let foundIndex = this.tickets.findIndex((p) => p.id === this.tickets.id);
-      console.log("update " + foundIndex + this.tickets.name);
+    updateUser(user) {
+      let foundIndex = this.users.findIndex((p) => p.id === this.users.id);
+      console.log("update " + foundIndex + this.users.name);
       //
     },
   },
