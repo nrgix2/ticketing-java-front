@@ -8,7 +8,6 @@
         <span class="glyphicon glyphicon-plus"></span>
         Add ticket
       </nuxt-link>
-      <div class="btn btn-info" @click="fetch">Charger les données</div>
     </div>
     <div class="filters row">
       <div class="form-group col-sm-3">
