@@ -1,15 +1,8 @@
 <template>
-  <section>
-    <nav>
-      <nuxt-link class="login btn btn-default" :to="{ path: '/login' }">
-        <span class="glyphicon glyphicon-arrow-right "></span>
-        Login
-      </nuxt-link>
-      <nuxt-link class="register btn btn-default" :to="{ path: '/register' }">
-        <span class="glyphicon glyphicon-arrow-right "></span>
-        Register
-      </nuxt-link>
-    </nav>
+  <section class="section">
+    <div class="container">
+      <h1 class="title">Mes tickets</h1>
+    </div>
     <div class="actions">
       <nuxt-link class="btn btn-default" :to="{ path: '/product/create' }">
         <span class="glyphicon glyphicon-plus"></span>
@@ -76,42 +69,42 @@ export default {
   computed: {
     filteredtickets() {
       return this.tickets.filter(
-        (ticket) =>
+        ticket =>
           ticket.description
             .toLowerCase()
             .indexOf(this.searchKey.toLowerCase()) !== -1
       );
-    },
+    }
   },
   methods: {
     deleteTicketById(id) {
-      let foundIndex = this.tickets.findIndex((p) => p.id === id);
-      Axios.delete("http://localhost:8080/ticket/?id=" + id).then(
-        (response) => {
-          this.tickets.splice(foundIndex, 1);
-          console.log(this.tickets);
-        }
-      );
+      let foundIndex = this.tickets.findIndex(p => p.id === id);
+      Axios.delete("http://localhost:8080/ticket/?id=" + id).then(response => {
+        this.tickets.splice(foundIndex, 1);
+        console.log(this.tickets);
+      });
     },
     updateTicket(ticket) {
-      let foundIndex = this.tickets.findIndex((p) => p.id === this.tickets.id);
+      let foundIndex = this.tickets.findIndex(p => p.id === this.tickets.id);
       console.log("update " + foundIndex + this.tickets.name);
       //
     },
     async fetch() {
       // Fetche data from API local
-      this.tickets = await fetch(
-        "http://localhost:8080/tickets/all"
-      ).then((res) => res.json());
+      this.tickets = await fetch("http://localhost:8080/tickets/all").then(
+        res => res.json()
+      );
       console.log(this.tickets);
-    },
+    }
   },
 
-  components: {},
+  components: {}
 };
 </script>
-
 <style>
+.title {
+  text-align: center;
+}
 nav {
   display: flex;
   justify-content: flex-end;
@@ -134,6 +127,8 @@ nav {
 }
 
 .actions {
+  display: flex;
+  justify-content: space-evenly;
   padding: 10px 0;
 }
 

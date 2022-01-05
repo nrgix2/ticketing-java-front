@@ -35,7 +35,7 @@
         v-model="theTicket.description"
       />
 
-     
+
     </div>
   </span>
 </template>
@@ -46,3 +46,9 @@ export default {
   props: ["theTicket"],
 };
 </script>
+<style>
+section{
+      padding: 5rem 3.5rem;
+
+}
+</style>

@@ -2,7 +2,14 @@
   <nav class="navbar is-light">
     <div class="container">
       <div class="navbar-brand">
-        <nuxt-link class="navbar-item" to="/">Nuxt Auth</nuxt-link>
+
+
+        <nuxt-link class="navbar-item" to="/">    <img
+          src="./../static/logo.png"
+          alt="Logo"
+          title="Home page"
+          class="logo"
+        /> Ticketi</nuxt-link>
 
         <button class="button navbar-burger">
           <span></span>
@@ -48,4 +55,10 @@ export default {
   },
 };
 </script>
+
+<style>
+.navbar-brand{
+  width:100%;
+}
+</style>
 
