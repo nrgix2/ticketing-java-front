@@ -2,6 +2,8 @@
   <div class="container">
     <header class="page-header">
       <div>
+            <Navbar/>
+
         <nuxt-link to="/">
           <img
           src="../../dist/img/logo.png"
@@ -27,3 +29,16 @@
   margin-right: 15px;
 }
 </style>
+
+
+
+<script>
+import Navbar from '~/components/Navbar';
+
+export default {
+  components: {
+    Navbar,
+  },
+};
+</script>
+

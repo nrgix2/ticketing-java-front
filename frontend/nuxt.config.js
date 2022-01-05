@@ -38,6 +38,20 @@ export default {
   /*
    ** Modules - https://nuxtjs.org/docs/2.x/directory-structure/modules
    */
-  modules: ['@nuxtjs/axios']
+   modules: [
+    '@nuxtjs/axios',
+    '@nuxtjs/auth-next'
+  ],
+  auth: {
+    strategies: {
+      local: {
+        endpoints: {
+          login: { url: 'login', method: 'post', propertyName: 'data.token' },
+          user: { url: 'me', method: 'get', propertyName: 'data' },
+          logout: false
+        }
+      }
+    }
+  }
 }
 
