@@ -27,7 +27,7 @@
           <th>Ticket Title</th>
           <th>Description</th>
           <th>Status</th>
-          <th>User-ID</th>
+          <th>User_Name</th>
           <th class="col-sm-2">Actions</th>
         </tr>
       </thead>
@@ -38,7 +38,7 @@
           </td>
           <td>{{ ticket.description }}</td>
           <td>{{ ticket.status }}</td>
-          <td>{{ ticket.userId }}</td>
+          <td>{{ ticket.user.firstname }}</td>
           <td>
             <div
               class="btn btn-warning btn-xs"
