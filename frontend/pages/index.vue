@@ -1,11 +1,13 @@
 <template>
   <section>
     <div class="actions">
-      <nuxt-link class="btn btn-default" :to="{ path: '/create' }">
+      <nuxt-link class="btn btn-default" @click="fetch" :to="{ path: '/index_users' }">
+        Go to users
+      </nuxt-link>
+      <nuxt-link class="btn btn-default" :to="{ path: '/create_ticket' }">
         <span class="glyphicon glyphicon-plus"></span>
         Add ticket
       </nuxt-link>
-      <div class="btn btn-info" @click="fetch">Charger les données</div>
     </div>
     <div class="filters row">
       <div class="form-group col-sm-3">
@@ -23,6 +25,9 @@
         <tr>
           <th>Ticket Title</th>
           <th>Description</th>
+          <th>Status</th>
+          <th>Admin Name</th>
+          <th>User Name</th>
           <th class="col-sm-2">Actions</th>
         </tr>
       </thead>
@@ -31,13 +36,19 @@
           <td>
             <div>{{ ticket.id + " - " + ticket.name }}</div>
           </td>
+          <td>{{ ticket.description }}</td>
           <td>{{ ticket.status }}</td>
+          <td>{{ ticket.admin.firstname + ' ' + ticket.admin.lastname}}</td>
+          <td>{{ ticket.user.firstname + ' ' + ticket.user.lastname}}</td>
           <td>
-            <div
-              class="btn btn-warning btn-xs"
-              @click="updateTicket(ticket)"
-            >
+            <nuxt-link class="btn btn-warning btn-xs" :to="{ path: '/edit_ticket' }">
               <i class="far fa-edit"></i>Edit
+            </nuxt-link>
+            <div
+                class="btn btn-warning btn-xs"
+                @click="sendMail(ticket)"
+            >
+              <i class="far fa-edit"></i>Send Email
             </div>
             <div
               @click="deleteTicketById(ticket.id)"
@@ -93,6 +104,16 @@ export default {
       let foundIndex = this.tickets.findIndex((p) => p.id === this.tickets.id);
       console.log("update " + foundIndex + this.tickets.name);
       //
+    },
+
+    sendMail(ticket) {
+      let foundIndex = this.tickets.findIndex((p) => p.id === ticket.id);
+      Axios.put("http://localhost:8080/sendMail/?email=" + ticket.user.email +"&status=" + ticket.status).then(
+          (response) => {
+            this.tickets.splice(foundIndex, 1);
+            console.log(this.tickets);
+          }
+      );
     },
   },
 
