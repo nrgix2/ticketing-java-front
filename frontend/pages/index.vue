@@ -4,7 +4,7 @@
       <nuxt-link class="btn btn-default" @click="fetch" :to="{ path: '/index_users' }">
         Go to users
       </nuxt-link>
-      <nuxt-link class="btn btn-default" :to="{ path: '/create' }">
+      <nuxt-link class="btn btn-default" :to="{ path: '/create_ticket' }">
         <span class="glyphicon glyphicon-plus"></span>
         Add ticket
       </nuxt-link>
@@ -41,12 +41,9 @@
           <td>{{ ticket.admin.firstname + ' ' + ticket.admin.lastname}}</td>
           <td>{{ ticket.user.firstname + ' ' + ticket.user.lastname}}</td>
           <td>
-            <div
-              class="btn btn-warning btn-xs"
-              @click="updateTicket(ticket)"
-            >
+            <nuxt-link class="btn btn-warning btn-xs" :to="{ path: '/edit_ticket' }">
               <i class="far fa-edit"></i>Edit
-            </div>
+            </nuxt-link>
             <div
                 class="btn btn-warning btn-xs"
                 @click="sendMail(ticket)"

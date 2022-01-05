@@ -43,12 +43,9 @@
           <td>{{ user.telephone }}</td>
           <td>{{ user.username }}</td>
           <td>
-            <div
-              class="btn btn-warning btn-xs"
-              @click="updateUser(user)"
-            >
+            <nuxt-link class="btn btn-warning btn-xs" :to="{ path: '/edit_user' }">
               <i class="far fa-edit"></i>Edit
-            </div>
+            </nuxt-link>
             <div
               @click="deleteUserById(user.id)"
               class="btn delete btn-danger btn-xs"
